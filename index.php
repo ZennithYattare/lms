@@ -1,9 +1,7 @@
-<?php
-require('dbconn.php');
-$db = new dbconfig();
+<?php 
+    require('dbconn.php'); 
+    $db = new operations();
 ?>
-
-
 <!DOCTYPE html>
 <html>
 
@@ -36,6 +34,7 @@ $db = new dbconfig();
 	<div class="container">
 		<div class="login">
 			<h2>Sign In</h2>
+			<?php $db->loginUser(); ?>
 			<form action="index.php" method="post">
 				<input type="text" Name="RollNo" placeholder="RollNo" required="">
 				<input type="password" Name="Password" placeholder="Password" required="">
@@ -50,19 +49,20 @@ $db = new dbconfig();
 
 		<div class="register">
 			<h2>Sign Up</h2>
+			<?php $db->registerUser(); ?>
 			<form action="index.php" method="post">
 				<input type="text" Name="Name" placeholder="Name" required>
-				<input type="text" Name="Email" placeholder="Email" required>
+				<input type="email" Name="Email" placeholder="Email" required>
 				<input type="password" Name="Password" placeholder="Password" required>
 				<input type="text" Name="PhoneNumber" placeholder="Phone Number" required>
 				<input type="text" Name="RollNo" placeholder="Roll Number" required="">
 				
-				<!--<select name="Category" id="Category">
+				<select name="Category" id="Category">
 					<option value="GEN">General</option>
 					<option value="OBC">Test</option>
 					<option value="SC">SC</option>
 					<option value="ST">ST</option>
-				</select> -->
+				</select>
 				<br>
 			
 			
@@ -82,114 +82,6 @@ $db = new dbconfig();
 	<div class="footer w3layouts agileits">
 		
 	</div>
-
-<?php
-class operations extends dbconfig {
-	public function registerUser()
-	{
-		global $db;
-		if(isset($_POST['signup']))
-		{	
-			
-			$name = $db->check($_POST['Name']);
-			$email = $db->check($_POST['Email']);
-			$password = $db->check($_POST['Password']);
-			$mobno = $db->check($_POST['PhoneNumber']);
-			$rollno = $db->check($_POST['RollNo']);
-			$category = $db->check($_POST['Category']);
-			$type = 'Student';
-
-			$name = $_POST['Name'];
-			$email = $_POST['Email'];
-			$password = $_POST['Password'];
-			$mobno = $_POST['PhoneNumber'];
-			$rollno = $_POST['RollNo'];
-			$category = $_POST['Category'];
-			$type = 'Student';
-
-			if ($this->insertUserData($name, $email, $password, $mobno, $rollno,$category, $type)) {
-				echo "working";
-				echo "<script type='text/javascript'>alert('Registration Successful')</script>";
-			} else {
-				//echo "Error: " . $sql . "<br>" . $conn->error;
-				echo "<script type='text/javascript'>alert('User Exists')</script>";
-			}
-		}
-	}
-
-	function insertUserData($insName, $insEmail, $insPassword, $insMobNo, $insRollNo, $insCategory, $insType) {
-		echo "started here";
-		global $db;
-		$sql = "insert into user (Name,Type,Category,RollNo,EmailId,MobNo,Password) values('$insName','$insType','$insCategory','$insRollNo','$insEmail','$insMobNo','$insPassword')";
-		$result = mysqli_query($db->connection, $sql);
-
-		if ($result) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	// $sql="insert into LMS.user (Name,Type,Category,RollNo,EmailId,MobNo,Password) values ('$name','$type','$category','$rollno','$email','$mobno','$password')";
-
-	// if ($conn->query($sql) === TRUE) {
-	// 	echo "<script type='text/javascript'>alert('Registration Successful')</script>";
-	// } else {
-	// 	//echo "Error: " . $sql . "<br>" . $conn->error;
-	// 	echo "<script type='text/javascript'>alert('User Exists')</script>";
-	// }
-}
-
-if(isset($_POST['signin']))
-{$u=$_POST['RollNo'];
- $p=$_POST['Password'];
- $c=$_POST['Category'];
-
- $sql="select * from TEST.user where RollNo='$u'";
-
- $result = $conn->query($sql);
-$row = $result->fetch_assoc();
-$x=$row['Password'];
-$y=$row['Type'];
-if(strcasecmp($x,$p)==0 && !empty($u) && !empty($p))
-  {//echo "Login Successful";
-   $_SESSION['RollNo']=$u;
-   
-
-  if($y=='Admin')
-   header('location:admin/index.php');
-  else
-  	header('location:student/index.php');
-        
-  }
-else 
- { echo "<script type='text/javascript'>alert('Failed to Login! Incorrect RollNo or Password')</script>";
-}
-   
-
-}
-
-// if(isset($_POST['signup']))
-// {
-// 	$name=$_POST['Name'];
-// 	$email=$_POST['Email'];
-// 	$password=$_POST['Password'];
-// 	$mobno=$_POST['PhoneNumber'];
-// 	$rollno=$_POST['RollNo'];
-// 	$category=$_POST['Category'];
-// 	$type='Student';
-
-// 	$sql="insert into LMS.user (Name,Type,Category,RollNo,EmailId,MobNo,Password) values ('$name','$type','$category','$rollno','$email','$mobno','$password')";
-
-// 	if ($conn->query($sql) === TRUE) {
-// echo "<script type='text/javascript'>alert('Registration Successful')</script>";
-// } else {
-//     //echo "Error: " . $sql . "<br>" . $conn->error;
-// echo "<script type='text/javascript'>alert('User Exists')</script>";
-// }
-// }
-
-?>
 
 </body>
 <!-- //Body -->

@@ -1,6 +1,6 @@
 <?php
-    require('index.php');
     session_start();
+    require('operations.php');
     class dbconfig {
         public $connection;
         public function __construct() {
@@ -21,14 +21,4 @@
             return $return;
         }
     }
-// $dbservername = "localhost";
-// $dbusername = "root";
-// $dbpassword = "";
-// Create connection
-// $conn = mysqli_connect($dbservername, $dbusername, $dbpassword);
-// Check connection
-// if (!$conn) {
-//     echo "Connected unsuccessfully";
-//     die("Connection failed: " . mysqli_connect_error());
-// }
 ?>
